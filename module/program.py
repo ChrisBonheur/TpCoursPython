@@ -43,24 +43,26 @@ class Player:
             if self.name == key:
                 self.player_exist = True
 
+    @property
     def boost_score(self):
         """Boost score with number of trying chance"""
         self.score += self.trying_chance
 
+    @property
     def drop_trying_chance(self):
         """Drop trying_chance"""
-        self.trying_chance -= LOSE_CHANCE
+        self.trying_chance -= self.LOSE_CHANCE
 
     def initialize_game(self):
         self.score = 0
         self.trying_chance = 8
 
-    def get_score(self):
+    def set_score(self):
         if self.player_exist == True:
             self.score = self.players_list[self.name][score]
         return self.score
 
-    def get_trying_chance(self):
+    def set_trying_chance(self):
         if self.player_exist == True:
             self.trying_chance = self.players_list[self.name][chance_number]
         return self.trying_chance
