@@ -1,25 +1,6 @@
 #! /usr/bin/env python3
 # coding: utf-8
-
-import pickle
 import random
-
-
-def written_on_file(player_list):
-    """This function write or save information on file"""
-    with open('data/player', 'wb') as file:
-        nom_pickler = pickle.Pickler(file)
-        nom_pickler.dump(player_list)
-
-def get_file():
-    """
-    this function read a wriitten file
-    and return list players
-    """
-    with open('data/player', 'rb') as file:
-        nom_pickler = pickle.Unpickler(file)
-        players_list = nom_pickler.load()
-    return players_list
 
 
 class Player:
@@ -28,20 +9,17 @@ class Player:
     existing player.
     """
     LOSE_CHANCE = 1
-    def __init__(self, name, list_players):
+    def __init__(self, name, score=0, trying_chance=8):
         self.name = name
-        self.score = 0
-        self.trying_chance = 8
+        self.score = score
+        self.trying_chance = trying_chance
         self.player_exist = False
-        self.players_list = list_players
-        self.player_verification()
 
-    def player_verification(self):
+    def is_existed(self, players_list):
         """Verificate if player name exist"""
-        players_list = self.players_list
-        for key in players_list.keys():
-            if self.name == key:
-                self.player_exist = True
+        if self.name in players_list:
+            self.player_exist = True
+        return self.player_exist
 
     @property
     def boost_score(self):
@@ -49,60 +27,51 @@ class Player:
         self.score += self.trying_chance
 
     @property
-    def drop_trying_chance(self):
+    def losing_chance(self):
         """Drop trying_chance"""
         self.trying_chance -= self.LOSE_CHANCE
 
+    @property
     def initialize_game(self):
         self.score = 0
         self.trying_chance = 8
 
-    def set_score(self):
-        if self.player_exist == True:
-            self.score = self.players_list[self.name][score]
-        return self.score
-
-    def set_trying_chance(self):
-        if self.player_exist == True:
-            self.trying_chance = self.players_list[self.name][chance_number]
-        return self.trying_chance
 
 
-class GameSystem:
+class GenerateWord:
     """GameSystem controle the game"""
     def __init__(self, word_list):
         self.word_list = word_list
+        #setting attribute to get random word for unique word
+        self.word = self.__get_random_word
 
     @property
-    def get_random_item(self):
-        """Get random number"""
-        len_list = len(self.word_list)
-        random_item = random.randint(0, len_list - 1)
-        return random_item
-
-    @property
-    def get_random_word(self):
+    def __get_random_word(self):
         """
         Choice word in random in liste passed as
         class parameter
         """
-        return self.word_list[self.get_random_item]
+        return random.choice(self.word_list)
 
+    @property
     def split_word_shuffle(self):
         """mix letter of word(from get_random_word) randomly"""
-        word = self.get_random_word
+        word = self.word
         word_in_list = list(word)
-        table_word = []
-        for letter in word_in_list:
-            table_word.append(letter)
-            random.shuffle(table_word)
-        return table_word
+        random.shuffle(word_in_list)
+        return word_in_list
 
 
-
+liste = {"antonio": {"score": 8, "trying_chance": 0}, "robert": {"score": 2, "trying_chance": 5}}
+liste = ["Diable", "Enfer", "Carma", "Retour"]
 
 def main():
-    pass
+
+    word = GenerateWord(liste)
+    print(word.word)
+    print(word.split_word_shuffle)
+
+
 
 if __name__ == '__main__':
     main()
