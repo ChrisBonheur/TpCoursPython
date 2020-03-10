@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 # coding: utf-8
-import re
 
 from module import save_db, program
 
@@ -20,7 +19,8 @@ def start_game():
     """Begin game and return word found by player"""
     GenerateWord = program.GenerateWord(liste)
     word_letters = GenerateWord.split_word_shuffle
-    print("\nFormer un mot à partir des {} lettres suivantes : {}".format(len(word_letters), word_letters))
+    begin_text = "\nFormer un mot à partir des {} lettres suivantes : {}".format(len(word_letters), word_letters)
+    print(begin_text)
 
     #this variableList is Using in the invite command to show number of a case
     appelation = {
