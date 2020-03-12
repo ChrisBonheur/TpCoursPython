@@ -2,6 +2,12 @@
 # coding: utf-8
 import random
 
+def read_file(dir_file):
+    word_list = []
+    with open(dir_file, 'r') as file:
+        result = file.readlines()
+    return result
+
 
 class Player:
     """
@@ -49,9 +55,14 @@ class GenerateWord:
     def __get_random_word(self):
         """
         Choice word in random in liste passed as
-        class parameter
+        class parameter and make sure that random word
+        have word with less than 8 letters
         """
-        return random.choice(self.word_list)
+        random_word = random.choice(self.word_list)
+        while len(random_word) > 8:
+            random_word = random.choice(self.word_list)
+        return random_word
+
 
     @property
     def split_word_shuffle(self):
@@ -62,8 +73,8 @@ class GenerateWord:
         return word_in_list
 
 
-liste = {"antonio": {"score": 8, "trying_chance": 0}, "robert": {"score": 2, "trying_chance": 5}}
-liste = ["Diable", "Enfer", "Carma", "Retour"]
+
+liste = ["Diable", "Enfer", "Carma", "Retour", "arivaterebsddazdazda", "jhkqsldhjsqd", "hgkjsqdhjqldqsdk"]
 
 def main():
 
